@@ -77,7 +77,7 @@ class ProxyFetchSpider(Spider):
     
     def __init__(self, mode='prod', *args, **kwargs):
         if mode == 'prod':            
-            LOCAL_CONFIG_YAML = '/etc/hq-proxies.yml'
+            LOCAL_CONFIG_YAML = '../../hq-proxies.yml'
         elif mode == 'test':
             LOCAL_CONFIG_YAML = '/etc/hq-proxies.test.yml'
         with open(LOCAL_CONFIG_YAML, 'r') as f:
@@ -85,8 +85,7 @@ class ProxyFetchSpider(Spider):
         
         self.redis_db = StrictRedis(
             host=LOCAL_CONFIG['REDIS_HOST'], 
-            port=LOCAL_CONFIG['REDIS_PORT'], 
-            password=LOCAL_CONFIG['REDIS_PASSWORD'],
+            port=LOCAL_CONFIG['REDIS_PORT'],
             db=LOCAL_CONFIG['REDIS_DB']
         )
         self.PROXY_COUNT = LOCAL_CONFIG['PROXY_COUNT']
@@ -105,7 +104,7 @@ class ProxyFetchSpider(Spider):
             yield Request(url=vendor['url'], callback=callback)
     
     def checkin(self, response):
-        res = response.body_as_unicode()
+        res = response.xpath('//body/text()').extract()[0].strip()
         if 'startstring' in response.meta and res.startswith(response.meta['startstring']):
             proxy = response.meta['proxy']
             self.redis_db.sadd(self.PROXY_SET, proxy)
