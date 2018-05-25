@@ -77,7 +77,7 @@ class ProxyFetchSpider(Spider):
     
     def __init__(self, mode='prod', *args, **kwargs):
         if mode == 'prod':            
-            LOCAL_CONFIG_YAML = '../../hq-proxies.yml'
+            LOCAL_CONFIG_YAML = '/etc./hq-proxies.yml'
         elif mode == 'test':
             LOCAL_CONFIG_YAML = '/etc/hq-proxies.test.yml'
         with open(LOCAL_CONFIG_YAML, 'r') as f:
