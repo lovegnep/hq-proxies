@@ -39,7 +39,6 @@ PROXY_REFRESH = LOCAL_CONFIG['PROXY_REFRESH']
 redis_db = StrictRedis(
     host=LOCAL_CONFIG['REDIS_HOST'], 
     port=LOCAL_CONFIG['REDIS_PORT'], 
-    password=LOCAL_CONFIG['REDIS_PASSWORD'],
     db=LOCAL_CONFIG['REDIS_DB']
 )
 
